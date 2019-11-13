@@ -10,7 +10,7 @@
  * nuestro carrito, sumar el precio total de los elementos
  * de nuestro carrito. 
  *  
- ***********************************************/
+ ***********************************************
 let listaProductos = [];
 let shoppingCart = [];
 
@@ -48,7 +48,7 @@ test('cargar productos en la lista',() => {
         precio: 35
     });
 });
-/****************** B U S C A R *********************/
+/****************** B U S C A R *********************
 
 const searchID = (ID) => {
 
@@ -65,7 +65,7 @@ test ('buscar por id', () => {
 });
 
 
-/****************** M O D I F I C A R*********************/
+/****************** M O D I F I C A R*********************
 
 const modificarProducto = (ID, newID, newName, newDesc, newPrice) => {
     
@@ -88,7 +88,7 @@ test('modificar productos de la lista', () => {
 });
 
 
-/*********************B O R R A R************************/
+*********************B O R R A R************************
 
 
 const borrarProducto = (ID) => {
@@ -110,7 +110,7 @@ test('borrar producto de la lista', () => {
 });
 
 
-/************************A G R E G A R  AL  C A R R I T O***************************/
+************************A G R E G A R  AL  C A R R I T O***************************
 
 const addToCart = (ID) => {
     for (let item of listaProductos) {
@@ -136,9 +136,9 @@ test('agregar prod al carrito', () => {
     });
 });
 
-/************************B O R R A R  DEL  C A R R I  T O ***************************/
+************************B O R R A R  DEL  C A R R I  T O ***************************
 
-const deleteFromChart = (ID) => {
+const deleteFromCart = (ID) => {
     for (let item of shoppingCart) {
         if (item.id == ID) {
             shoppingCart.splice(item, 1);
@@ -152,11 +152,11 @@ test('borrar del carrito', ()=> {
     addToCart(10);
     addToCart(11);
     let previousLength = shoppingCart.length
-    deleteFromChart(10);
+    deleteFromCart(10);
     expect(shoppingCart.length).toBeLessThan(previousLength)
 });
 
-/************************S U M A R P R E C I O ***************************/
+************************S U M A R P R E C I O ***************************
 
 const totalPrice = () => {
      let total = 0;
@@ -182,9 +182,99 @@ test ('precio total de compra', () => {
 );
 
 
+******/
 
 
 
 
 
 
+
+/*************************************************
+ * Crear un objeto que sea un libro, con todos 
+ * sus detalles (nombre, autor, año, isbn). Ademas
+ * de esto, deberá tener una lista de reviews, y cada
+ * review deberá tener un formato de 
+ * {nombre, review, valoracion(entre 1 y 5)}.
+ * 
+ * Deberemos crear una funcion para promediar esta 
+ * valoracion. 
+ * Tambien, tendremos que crear un getter para 
+ * obtener el nombre, el autor y el isbn juntos 
+ * en un formato legible (libro [por] autor - isbn).
+ * Por último tendremos que crear una funcion que nos
+ * permita agregar nuevas reviews al libro.
+ */
+
+
+
+const libro = {
+    titulo: "titulo",
+    autor: "Nombre Autor",
+    añoPublicacion: 1994,
+    ISBN: 1234567,
+    reviews: [],
+    
+    get info () {
+        return `${this.titulo}, por ${this.autor} - ${this.ISBN}`
+    },
+
+    agregarReview: function(nombre, comentario, _valoracion){
+        let valoracion;
+        if(_valoracion < 1 || _valoracion > 5 || typeof _valoracion !== "number") {
+            throw "La valoracion debe ser un numero entre 1 y 5"
+        } else { 
+            valoracion = _valoracion;
+        };
+        this.reviews.push({
+            nombre,
+            comentario,
+            valoracion 
+        });
+    },
+    
+    get promedio(){
+        let prom = 0;
+        for (let review of this.reviews) {
+            prom += review.valoracion;
+        }
+        prom = prom / this.reviews.length;
+
+        return prom
+    }
+    
+}
+
+
+beforeEach(()=>{
+    libro.reviews = [];
+});
+
+test('agregar review a la lista de reviews', () => {
+    libro.agregarReview("Lou", "buenisimo che", 5);
+    expect(libro.reviews[0]).toStrictEqual({
+        nombre: "Lou",
+        comentario: "buenisimo che",
+        valoracion: 5
+    })
+});
+
+test('ver informacion del libro', () => {
+    expect(libro.info).toBe(`titulo, por Nombre Autor - 1234567`)
+});
+
+test('sacar promedio de valoraciones',()=>{
+    libro.agregarReview("Lou", "buenisimo che", 5);
+    libro.agregarReview("Not Lou", "mameno", 3);
+    libro.agregarReview("Cosme Fulanito", "una basofia", 1);
+    expect(libro.promedio).toBe(3);
+});
+
+/***********************************************
+ * Crear un objeto "receta" que tenga una lista 
+ * de ingredientes con su cantidad, y un 
+ * metodo que muestre un texto de 
+ * las cantidades. Por ejemplo:
+ * - La receta <nombre> lleva 2 tazas de harina,
+ * 5 gramos de levadura, etc...
+ */
