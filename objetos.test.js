@@ -255,6 +255,10 @@ test('agregar review a la lista de reviews', () => {
     })
 });
 
+test('tira un errror cuando mando fruta en la valoracion', () => {
+    expect(libro.agregarReview("Lou", "buenisimo che", "jamon")).toThrow("La valoracion debe ser un numero entre 1 y 5");
+});
+
 test('ver informacion del libro', () => {
     expect(libro.info).toBe(`titulo, por Nombre Autor - 1234567`)
 });
