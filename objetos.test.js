@@ -219,12 +219,9 @@ const libro = {
         return `${this.titulo}, por ${this.autor} - ${this.ISBN}`
     },
 
-    agregarReview: function(nombre, comentario, _valoracion){
-        let valoracion;
-        if(_valoracion < 1 || _valoracion > 5 || typeof _valoracion !== "number") {
+    agregarReview: function(nombre, comentario,valoracion){
+        if(valoracion < 1 || valoracion > 5 || typeof valoracion !== "number") {
             throw "La valoracion debe ser un numero entre 1 y 5"
-        } else { 
-            valoracion = _valoracion;
         };
         this.reviews.push({
             nombre,
