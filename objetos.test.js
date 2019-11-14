@@ -241,8 +241,7 @@ const libro = {
         prom = prom / this.reviews.length;
 
         return prom
-    }
-    
+    }    
 }
 
 
@@ -278,3 +277,59 @@ test('sacar promedio de valoraciones',()=>{
  * - La receta <nombre> lleva 2 tazas de harina,
  * 5 gramos de levadura, etc...
  */
+
+ const receta = {
+    nombre: "nombre receta",
+    _ingredientes: [],
+     
+    agregarIngredientes: function(ingrediente, cantidad) {
+        this._ingredientes.push({
+            ingrediente,
+            cantidad
+        });
+    },
+
+    get ingredientes () {
+        let texto = `La receta de ${this.nombre} lleva `;
+
+        for (let ingrediente of this._ingredientes) {
+            if (this._ingredientes.indexOf(ingrediente) == this._ingredientes.length -2) {
+                texto += `${ingrediente.cantidad} de ${ingrediente.ingrediente} `;    
+            
+            }else if (this._ingredientes.indexOf(ingrediente) == this._ingredientes.length -1) {
+                
+              texto += `y ${ingrediente.cantidad} de ${ingrediente.ingrediente}.`;    
+
+            } else {
+                texto += `${ingrediente.cantidad} de ${ingrediente.ingrediente}, `;    
+            }
+        }
+    
+        return texto
+    }
+}
+
+
+
+beforeEach(()=>{
+    receta._ingredientes = [];
+});
+
+
+test('agregar ingredientes a la lista de ingredientes',()=> {
+    receta.agregarIngredientes("harina","250gr");
+    expect(receta._ingredientes[0]).toStrictEqual({
+       ingrediente: "harina",
+        cantidad: "250gr"
+    })
+});
+
+test('mostrar instrucciones', () => {
+    receta.nombre = "panqueques";
+    receta.agregarIngredientes("harina","250gr");
+    receta.agregarIngredientes("leche","200ml");
+    receta.agregarIngredientes("huevos","2");
+
+    expect(receta.ingredientes).toBe("La receta de panqueques lleva 250gr de harina, 200ml de leche y 2 de huevos.");
+});
+
