@@ -229,7 +229,7 @@ const libro = {
             valoracion 
         });
     },
-    
+    /*
     get promedio(){
         let prom = 0;
         for (let review of this.reviews) {
@@ -240,7 +240,17 @@ const libro = {
         return prom
     }    
 }
+*/
+    get promedioValoraciones () {
+        let suma = this.reviews.reduce((acumulador, review) => {
+            return acumulador + review.valoracion
+        }, 0);
 
+        let promedio = suma / this.reviews.length;
+
+        return promedio;
+    }
+}
 
 beforeEach(()=>{
     libro.reviews = [];
@@ -267,7 +277,7 @@ test('sacar promedio de valoraciones',()=>{
     libro.agregarReview("Lou", "buenisimo che", 5);
     libro.agregarReview("Not Lou", "mameno", 3);
     libro.agregarReview("Cosme Fulanito", "una basofia", 1);
-    expect(libro.promedio).toBe(3);
+    expect(libro.promedioValoraciones).toBe(3);
 });
 
 /***********************************************
